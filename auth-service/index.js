@@ -21,22 +21,13 @@ const pool = new Pool({
     }
 });
 
-app.get('/test-db', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM public.users');
-        //print the result to console for debugging
-        res.json({ success: true, data: result.rows });
-    } catch (err) {
-        res.status(500).json({ success: false, error: err.message });
-    }
-});
 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
 
     if (user.rows.length && user.rows[0].password === password) {
-        res.json({ message: 'Login success', user: user.rows[0] });
+        res.json({ message: "Login success", user: { username: "nghia1" } });
     } else {
         res.status(401).json({ message: 'Invalid credentials' });
     }
