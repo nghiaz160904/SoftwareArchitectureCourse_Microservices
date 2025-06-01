@@ -8,6 +8,7 @@ function Post() {
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const POST_SERVICE_URL = import.meta.env.VITE_POST_SERVICE_URL || "http://localhost:4001";
 
     // Kiểm tra đăng nhập
     useEffect(() => {
@@ -19,7 +20,7 @@ function Post() {
     // Lấy danh sách bài viết
     const fetchPosts = async () => {
         try {
-            const response = await fetch("http://localhost:4001/posts");
+            const response = await fetch(POST_SERVICE_URL + "/posts");
             if (!response.ok) {
                 throw new Error("Không thể lấy danh sách bài viết");
             }

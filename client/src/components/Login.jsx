@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+const AUTH_SERVICE_URL = import.meta.env.VITE_AUTH_SERVICE_URL || "http://localhost:4000";
 function Login({ onLogin }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -9,7 +10,7 @@ function Login({ onLogin }) {
         e.preventDefault();
         setError("");
         try {
-            const response = await fetch("http://localhost:4000/login", {
+            const response = await fetch(AUTH_SERVICE_URL + "/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),
