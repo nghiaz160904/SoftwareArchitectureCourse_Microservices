@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "4001:4001"
+    environment:
+      - PORT=4001
+
+  post-service:
+    build: ./post-service
+    ports:
+      - "4002:4002"
+    environment:
+      - PORT=4002
+
+  registration-service:
+    build: ./registration-service
+    ports:
+      - "4003:4003"
+    environment:
+      - PORT=4003
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "4000:4000"
+    environment:
+      - API_GATEWAY_PORT=4000
+      - AUTH_SERVICE_URL=http://auth-service:4001
+      - POST_SERVICE_URL=http://post-service:4002
+      - REGISTER_SERVICE_URL=http://registration-service:4003
+    depends_on:
+      - auth-service
+      - post-service
+      - registration-service
+  client:
+    build: ./client
+    ports:
+      - "5173:5173"        # Map cổng Vite dev server
+    environment:
+      - HOST=0.0.0.0
+      - VITE_HOST=0.0.0.0     # Đảm bảo Vite lắng nghe bên ngoài
+      - VITE_PORT=5173        # Port Vite sử dụng
+    # Ghi đè command để bật host và port
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+    depends_on:
+      - api-gateway
+
+networks:
+  default:
+    driver: bridge

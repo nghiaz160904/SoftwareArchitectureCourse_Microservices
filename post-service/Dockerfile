@@ -1,0 +1,8 @@
+# post-service/Dockerfile
+FROM node:20-alpine
+WORKDIR /usr/src/post-service
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+EXPOSE 4002
+CMD ["node", "index.js"]
