@@ -1,8 +1,17 @@
-# post-service/Dockerfile
+# auth-service/Dockerfile
 FROM node:20-alpine
+
 WORKDIR /usr/src/post-service
+
 COPY package*.json ./
-RUN npm install --production
+RUN npm install
+
+# Copy mã nguồn và Prisma schema
 COPY . .
-EXPOSE 4002
-CMD ["node", "index.js"]
+
+# Tạo Prisma Client
+RUN npx prisma generate
+
+# Trước khi start, chạy migration
+CMD ["sh", "-c", "npx prisma db push && node index.js"]
+

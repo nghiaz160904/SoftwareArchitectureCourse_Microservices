@@ -55,7 +55,7 @@ function Post() {
                     username: localStorage.getItem("user"),
                     title,
                     content,
-                    created_at: Date.now()
+                    createdAt: Date.now()
                 }),
             });
             if (!response.ok) {
@@ -109,7 +109,7 @@ function Post() {
                         <div style={{ fontWeight: "bold" }}>{post.title}</div>
                         <div>{post.content}</div>
                         <div style={{ fontSize: 13, color: "#555" }}>
-                            Đăng bởi: <b>{post.username}</b> | {new Date(post.created_at).toLocaleString()}
+                            Đăng bởi: <b>{post.author}</b> | {new Date(post.createdAt).toLocaleString()}
                         </div>
                     </li>
                 ))}

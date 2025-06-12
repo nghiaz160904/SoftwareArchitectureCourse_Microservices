@@ -11,20 +11,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const pool = new Pool({
-    user: process.env.DB_USER || "postgres",
-    host: process.env.DB_HOST || "localhost",
-    database: process.env.DB_NAME || "auth_db",
-    password: process.env.DB_PASS || "password",
-    port: "5432" || process.env.DB_PORT,
+    // Nếu có DATABASE_URL, dùng nó; còn không, fallback về các biến riêng lẻ
+    connectionString: process.env.DATABASE_URL ||
+        `postgresql://${process.env.DB_USER || "postgres"}:` +
+        `${process.env.DB_PASS || "password"}@` +
+        `${process.env.DB_HOST || "localhost"}:` +
+        `${process.env.DB_PORT || 5432}/` +
+        `${process.env.DB_NAME || "auth_db"}`,
     ssl: {
         rejectUnauthorized: false
     }
 });
 
-
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    const user = await pool.query('SELECT * FROM "User" WHERE username = $1', [username]);
 
     if (user.rows.length && user.rows[0].password === password) {
         res.json({ message: "Login success", user: { username: "nghia1" } });

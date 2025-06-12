@@ -1,12 +1,27 @@
 version: '3.8'
 
 services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: db_ddk6_user
+      POSTGRES_PASSWORD: 6WJqAZSLR87YwD3P9tVOYt0CNg9hvOc2
+      # Nếu cần DB riêng tên khác, có thể thêm POSTGRES_DB
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
   auth-service:
     build: ./auth-service
     ports:
       - "4001:4001"
     environment:
       - PORT=4001
+      - DATABASE_URL=postgresql://userdb_xf0e_user:GdcIqbOFlhgkJtQnTVSFDItAFZfpq9YL@dpg-d15dcpm3jp1c73fp4fig-a.singapore-postgres.render.com/userdb_xf0e
+    depends_on:
+      - postgres
 
   post-service:
     build: ./post-service
@@ -14,6 +29,9 @@ services:
       - "4002:4002"
     environment:
       - PORT=4002
+      - DATABASE_URL=postgresql://postdb_attd_user:rQlZgO87s4iI6phYwaWbhlXTI9yXapTL@dpg-d15dc97diees73fu2cb0-a.oregon-postgres.render.com/postdb_attd
+    depends_on:
+      - postgres
 
   registration-service:
     build: ./registration-service
@@ -21,6 +39,9 @@ services:
       - "4003:4003"
     environment:
       - PORT=4003
+      - DATABASE_URL=postgresql://userdb_xf0e_user:GdcIqbOFlhgkJtQnTVSFDItAFZfpq9YL@dpg-d15dcpm3jp1c73fp4fig-a.singapore-postgres.render.com/userdb_xf0e
+    depends_on:
+      - postgres
 
   api-gateway:
     build: ./api-gateway
@@ -35,18 +56,21 @@ services:
       - auth-service
       - post-service
       - registration-service
+
   client:
     build: ./client
     ports:
-      - "5173:5173"        # Map cổng Vite dev server
+      - "5173:5173"
     environment:
       - HOST=0.0.0.0
-      - VITE_HOST=0.0.0.0     # Đảm bảo Vite lắng nghe bên ngoài
-      - VITE_PORT=5173        # Port Vite sử dụng
-    # Ghi đè command để bật host và port
+      - VITE_HOST=0.0.0.0
+      - VITE_PORT=5173
     command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
     depends_on:
       - api-gateway
+
+volumes:
+  pgdata:
 
 networks:
   default:
