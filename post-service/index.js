@@ -46,4 +46,7 @@ app.get('/posts', async (req, res) => {
     }
 });
 
-app.listen(4001, () => console.log('Post service on port 4001'));
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'healthy' });
+});
+app.listen(4002, () => console.log('Post service on port 4002'));

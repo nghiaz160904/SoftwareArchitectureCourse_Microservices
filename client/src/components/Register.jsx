@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-const REGISTER_SERVICE_URL = import.meta.env.VITE_REGISTER_SERVICE_URL || "http://localhost:4000";
+const VITE_API_GATEWAY_URL = import.meta.env.VITE_API_GATEWAY_URL || "http://localhost:4000";
 
 function Register({ onRegister }) {
     const [username, setUsername] = useState("");
@@ -22,7 +22,7 @@ function Register({ onRegister }) {
         }
 
         try {
-            const response = await fetch(REGISTER_SERVICE_URL + "/register", {
+            const response = await fetch(VITE_API_GATEWAY_URL + "/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),

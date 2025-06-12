@@ -38,4 +38,8 @@ app.post('/register', async (req, res) => {
         res.status(500).json({ message: 'Error registering user' });
     }
 });
-app.listen(4002, () => console.log('Registration service on port 4002'));
+
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'healthy' });
+});
+app.listen(4003, () => console.log('Registration service on port 4003'));

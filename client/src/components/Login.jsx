@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-const AUTH_SERVICE_URL = import.meta.env.VITE_AUTH_SERVICE_URL || "http://localhost:4000";
+const VITE_API_GATEWAY_URL = import.meta.env.VITE_API_GATEWAY_URL || "http://localhost:4000";
 
 function Login({ onLogin }) {
     const [username, setUsername] = useState("");
@@ -13,7 +13,7 @@ function Login({ onLogin }) {
         e.preventDefault();
         setError("");
         try {
-            const response = await fetch(AUTH_SERVICE_URL + "/login", {
+            const response = await fetch(VITE_API_GATEWAY_URL + "/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),

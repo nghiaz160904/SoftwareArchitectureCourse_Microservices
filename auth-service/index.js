@@ -32,5 +32,7 @@ app.post('/login', async (req, res) => {
         res.status(401).json({ message: 'Invalid credentials' });
     }
 });
-
-app.listen(4000, () => console.log('Auth service on port 4000'));
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'healthy' });
+});
+app.listen(4001, () => console.log('Auth service on port 4001'));
