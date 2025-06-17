@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-service
+  namespace: microservices
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: post-service
+  template:
+    metadata:
+      labels:
+        app: post-service
+    spec:
+      containers:
+      - name: post-service
+        image: nghiax1609/post-service:1.0.0
+        ports:
+        - containerPort: 4002
+        env:
+        - name: PORT
+          value: "4002"
+        - name: DATABASE_URL
+          value: "postgresql://postdb_bi0i_user:sXBuIB2nrlDZCAWlSuxn3qrVQ53jpsWJ@dpg-d18e21vdiees73aq2bag-a.singapore-postgres.render.com/postdb_bi0i"

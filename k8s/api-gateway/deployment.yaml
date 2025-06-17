@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: microservices
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: nghiax1609/api-gateway:1.0.0
+        ports:
+        - containerPort: 4000
+        env:
+        - name: API_GATEWAY_PORT
+          value: "4000"
+        - name: AUTH_SERVICE_URL
+          value: "http://auth-service:4001"
+        - name: POST_SERVICE_URL
+          value: "http://post-service:4002"
+        - name: REGISTER_SERVICE_URL
+          value: "http://registration-service:4003"

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+  namespace: microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - name: client
+        image: nghiax1609/client:1.0.0
+        ports:
+        - containerPort: 5173
+        env:
+        - name: HOST
+          value: "0.0.0.0"
+        - name: VITE_HOST
+          value: "0.0.0.0"
+        - name: VITE_PORT
+          value: "5173"
+        command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]

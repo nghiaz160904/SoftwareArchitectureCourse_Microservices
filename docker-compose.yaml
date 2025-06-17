@@ -29,7 +29,7 @@ services:
       - "4002:4002"
     environment:
       - PORT=4002
-      - DATABASE_URL=postgresql://postdb_attd_user:rQlZgO87s4iI6phYwaWbhlXTI9yXapTL@dpg-d15dc97diees73fu2cb0-a.oregon-postgres.render.com/postdb_attd
+      - DATABASE_URL=postgresql://postdb_bi0i_user:sXBuIB2nrlDZCAWlSuxn3qrVQ53jpsWJ@dpg-d18e21vdiees73aq2bag-a.singapore-postgres.render.com/postdb_bi0i
     depends_on:
       - postgres
 
